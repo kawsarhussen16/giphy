@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components';
 import axios from 'axios';
+import Display from './displayContainer.js';
 
 class SearchPage extends Component {
     constructor(props) {
@@ -36,14 +37,16 @@ class SearchPage extends Component {
     }
 
     fetchData = async () => {
-        let APIKEY = "NByeny2ItNCWUfNnnyz9cIrI2vz65Bfd";
-        let url = `https://api.giphy.com/v1/${this.state.gifs}/search?api_key=${APIKEY}&limit=1&q=`;
-        let qry = url.concat(this.state.keyword)
-        let data = await axios.get(qry)
-        this.setState({ data: data.data.data })
-        console.log(this.state.data)
+        try {
+            let APIKEY = "NByeny2ItNCWUfNnnyz9cIrI2vz65Bfd";
+            let url = `https://api.giphy.com/v1/${this.state.gifs}/search?api_key=${APIKEY}&q=`;
+            let qry = url.concat(this.state.keyword)
+            let data = await axios.get(qry);
+            this.setState({ data: data.data.data })
+        } catch (err) {
+            console.log(err)
+        }
     }
-
     render() {
         return (
             <div>
@@ -54,9 +57,8 @@ class SearchPage extends Component {
                 <OptionBox>
                     <Button className={` ${this.state.option1}`} onClick={this.searchGifs} >GIFs</Button>
                     <Button className={` ${this.state.option2}`} onClick={this.searchStickers} >Stickers</Button>
-
                 </OptionBox>
-
+                <Display data={this.state.data} />
             </div >
         );
 
