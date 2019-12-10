@@ -17,16 +17,16 @@ class SearchPage extends Component {
             data: {}
         }
     }
-    searchGifs = e => {
+    searchGifs = async (e) => {
         e.preventDefault();
-        this.setState({ gifs: "gifs", option1: 'gifs', option2: '' });
+        await this.setState({ gifs: "gifs", option1: 'gifs', option2: '' });
         if (this.state.keyword.length > 0) {
             this.fetchData();
         }
     }
-    searchStickers = e => {
+    searchStickers = async (e) => {
         e.preventDefault();
-        this.setState({ gifs: "stickers", option1: '', option2: 'stickers', })
+        await this.setState({ gifs: "stickers", option1: '', option2: 'stickers', })
         if (this.state.keyword.length > 0) {
             this.fetchData();
         }
@@ -36,7 +36,7 @@ class SearchPage extends Component {
         this.setState({ [e.target.name]: e.target.value })
     }
 
-    fetchData = async () => {
+    fetchData = async (e) => {
         try {
             let APIKEY = "NByeny2ItNCWUfNnnyz9cIrI2vz65Bfd";
             let url = `https://api.giphy.com/v1/${this.state.gifs}/search?api_key=${APIKEY}&q=`;
@@ -46,12 +46,13 @@ class SearchPage extends Component {
         } catch (err) {
             console.log(err)
         }
+
     }
     render() {
         return (
             <div>
                 <SearchBox>
-                    <Input onkeydown={this.fetchData} onChange={this.handleInput} value={this.state.keyword} name='keyword' placeholder='search' />
+                    <Input onKeyDown={this.fetchData} onChange={this.handleInput} value={this.state.keyword} name='keyword' placeholder='search' />
                     <FontAwesomeIcon onClick={this.fetchData} className='SearchIcon' icon={faSearch} />
                 </SearchBox>
                 <OptionBox>
